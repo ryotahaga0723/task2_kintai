@@ -23,7 +23,7 @@ https://docs.google.com/spreadsheets/d/1-bkfbpQTG0f4SOIm60kh8y2PFDXY-V9M/edit?us
 https://cacoo.com/diagrams/UtPGoO4V6zA3f991/241D3
 
 ## ER図
-<img width="277" alt="ER_task2" src="https://user-images.githubusercontent.com/102888155/168786655-d822aba5-3bbe-46a3-9bfe-691853effc83.png">
+<img width="374" alt="ER_task2" src="https://user-images.githubusercontent.com/102888155/168786919-051820ac-a5f4-4f84-abc7-28f11ab68871.png">
 
 ## 画面遷移図
 <img width="566" alt="画面遷移図_task2" src="https://user-images.githubusercontent.com/102888155/168774230-a97de6a0-785a-4827-9556-d340c40f2bd3.png">

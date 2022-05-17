@@ -17,7 +17,7 @@
 https://docs.google.com/spreadsheets/d/11SzKYRArrJScAswjl-r3y76800RiRjrZ/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true
 
 ## テーブル定義書
-https://docs.google.com/spreadsheets/d/1HKI4aER08X3B6LOsZnl6bdnd9lN7cXvE/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true
+https://docs.google.com/spreadsheets/d/1-bkfbpQTG0f4SOIm60kh8y2PFDXY-V9M/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true
 
 ## ワイヤーフレーム
 https://cacoo.com/diagrams/3tpXWOzaWU6yqk2M/65974

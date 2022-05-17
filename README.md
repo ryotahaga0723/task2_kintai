@@ -14,7 +14,7 @@
 > rails s
 
 ## カタログ設計
-https://docs.google.com/spreadsheets/d/1aUY_tIEPCM92M9f7Y1-4DXEg00iRaVln/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true
+https://docs.google.com/spreadsheets/d/11SzKYRArrJScAswjl-r3y76800RiRjrZ/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true
 
 ## テーブル定義書
 https://docs.google.com/spreadsheets/d/1HKI4aER08X3B6LOsZnl6bdnd9lN7cXvE/edit?usp=sharing&ouid=106903575897123476806&rtpof=true&sd=true

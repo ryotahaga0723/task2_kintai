@@ -26,4 +26,4 @@ https://cacoo.com/diagrams/UtPGoO4V6zA3f991/241D3
 <img width="383" alt="ER_task2_02" src="https://user-images.githubusercontent.com/102888155/169223875-52a8009e-57fc-4e4a-a189-f1919242c4c5.png">
 
 ## 画面遷移図
-<img width="710" alt="画面遷移図_task2_02" src="https://user-images.githubusercontent.com/102888155/169223889-b05c3de6-cd9d-4938-b7d3-498bc072ec91.png">
+<img width="632" alt="画面遷移図_task2_02" src="https://user-images.githubusercontent.com/102888155/169225887-23f83ef2-8c0e-41ed-9ae8-ae662e669e27.png">

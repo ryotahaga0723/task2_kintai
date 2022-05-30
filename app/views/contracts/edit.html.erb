@@ -1,0 +1,55 @@
+<section class="section">
+<div class="section_inner">
+  <div class= "title">
+    <h1>アカウント編集</h1>
+  </div>
+
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>エラーが発生しました。</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<table class="osare3-table col4t show">
+  <tbody>
+    <tr>
+      <td>名前</td>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <td>メールアドレス</td>
+      <td><%= @user.email %></td>
+    </tr>
+  <tbody>
+</table>
+
+    <%= form_with(model: @contract, local: true) do |f| %>
+      <table>
+        <tbody>
+          <tr>
+            <td><%= f.label :所定労働時間（時間／週） %></td>
+            <td><%= f.number_field :prescribed_time_main %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :３６協定時間（時間／月） %></td>
+            <td><%= f.number_field :agreement_time %></td>
+          </tr>
+          <td><%= f.hidden_field :user_id, value: @user.id %></td>
+        <tbody>
+      <table>
+      <div class = "button">
+        <%= f.submit "更新" %>
+      </div>
+    <% end %>
+    <div id = "back">
+      <%= link_to "戻る", user_path %>
+    </div>
+  <tbody>
+<table>
+</section>

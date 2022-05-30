@@ -1,0 +1,133 @@
+<section class="section">
+<div class ="section_inner">
+<h1><%= @user.name %> 勤怠記録一覧 <%= @month.strftime("%m月") %></h1>
+
+<p id="notice"><%= notice %></p>
+
+<table class="osare3-table col4t">
+  <thead>
+    <tr>
+      <th>勤務日数</th>
+      <th>総勤務時間</th>
+      <th>本業勤務時間</th>
+      <th>副業勤務時間</th>
+      <th>所定労働時間</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= @timecards_work_main + @timecards_work_sub - @timecards_work_and %>日</td>
+        <td>
+          <% @total_work_time_main_sum = 0 %>
+          <% @total_work_time_sub_sum = 0 %>
+          <% @timecards.each do |timecard| %>
+            <% unless timecard.main_business_time.nil? %>
+              <% timecard.total_time_main %>
+              <% @total_work_time_main_sum += timecard.total_time_main %>
+            <% end %>
+            <% unless timecard.sub_business_time.nil? %>
+              <% timecard.total_time_sub %>
+              <% @total_work_time_sub_sum += timecard.total_time_sub %>
+            <% end %>
+          <% end %>
+          <%= ( (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 ).floor %>時間<%= ( (@total_work_time_main_sum + @total_work_time_sub_sum) % 3600 / 60 ).floor %>分
+        </td>
+        <td>
+          <% @total_work_time_main_sum = 0 %>
+          <% @timecards.each do |timecard| %>
+            <% unless timecard.main_business_time.nil? %>
+              <% timecard.total_time_main %>
+              <% @total_work_time_main_sum += timecard.total_time_main %>
+            <% end %>
+          <% end %>
+          <%= ( @total_work_time_main_sum / 3600 ).floor %>時間<%= ( @total_work_time_main_sum % 3600 / 60 ).floor %>分
+        </td>
+        <td>
+        <% @total_work_time_sub_sum = 0 %>
+        <% @timecards.each do |timecard| %>
+          <% unless timecard.sub_business_time.nil? %>
+            <% timecard.total_time_sub %>
+            <% @total_work_time_sub_sum += timecard.total_time_sub %>
+          <% end %>
+        <% end %>
+        <%= ( @total_work_time_sub_sum / 3600 ).floor %>時間<%= ( @total_work_time_sub_sum % 3600 / 60 ).floor %>分
+      </td>
+      <td><%= @timecards_work_weekday * current_user.contract.prescribed_time_main / 5 %>時間</td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to "前月", index_sub_timecards_path(month: @month.prev_month, format: @user) %>
+<%= link_to "翌月", index_sub_timecards_path(month: @month.next_month, format: @user) %>
+
+<%= link_to "本業", timecards_path(current_user) %>
+
+<table class="osare3-table col4t">
+  <thead>
+    <tr>
+      <th>日付</th>
+      <th>本業実績</th>
+      <th>本業勤務時間</th>
+      <th>副業先</th>
+      <th>副業実績</th>
+      <th>副業勤務時間</th>
+      <th>総勤務時間</th>
+      <th>副業時間登録／修正</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @timecards.each do |timecard| %>
+      <tr>
+        <td><%= timecard.date.strftime("%m/%d") %></td>
+        <% unless timecard.main_business_time.nil? %>
+          <% unless timecard.main_business_time.end_time_main == nil %>
+            <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~<%= timecard.main_business_time.end_time_main.strftime("%H:%M") %></td>
+          <% else %>
+            <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~</td>
+          <% end %>
+          <td><%= timecard.total_work_time_main_hour %>時間<%= timecard.total_work_time_main_minute %>分</td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+        <% unless timecard.sub_business_time.nil? %>
+          <td><%= timecard.sub_business_time.sub_business.sub_business_company %></td>
+          <% unless timecard.sub_business_time.end_time_sub == nil %>
+            <td><%= timecard.sub_business_time.start_time_sub.strftime("%H:%M") %>~<%= timecard.sub_business_time.end_time_sub.strftime("%H:%M") %></td>
+          <% else %>
+            <td><%= timecard.sub_business_time.start_time_sub.strftime("%H:%M") %>~</td>
+          <% end %>
+            <td><%= timecard.total_work_time_sub_hour %>時間<%= timecard.total_work_time_sub_minute %>分</td>
+        <% else %>
+          <td></td>
+          <td></td>
+          <td></td>
+        <% end %>
+        <% if timecard.main_business_time != nil and timecard.sub_business_time != nil %>
+          <td><%= timecard.total_work_time_hour %>時間<%= timecard.total_work_time_minute %>分</td>
+        <% elsif timecard.main_business_time != nil %>
+          <td><%= timecard.total_work_time_main_hour %>時間<%= timecard.total_work_time_main_minute %>分</td>
+        <% elsif timecard.sub_business_time != nil %>
+          <td><%= timecard.total_work_time_sub_hour %>時間<%= timecard.total_work_time_sub_minute %>分</td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <td>
+          <% if current_user == @user %>
+            <% if timecard.sub_business_time.nil? %>
+              <%= link_to '勤怠入力', new_sub_business_time_path(timecard.id) %>
+            <% else %>
+              <%= link_to '編集', edit_sub_business_time_path(timecard.sub_business_time.id, timecard: timecard) %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</section>

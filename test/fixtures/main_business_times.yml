@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time_main: 2022-05-23 16:29:45
+  : MyString
+  sub_businessnd_time_main: 2022-05-23 16:29:45
+  timecard_id: 
+  user_id: 
+
+two:
+  start_time_main: 2022-05-23 16:29:45
+  : MyString
+  sub_businessnd_time_main: 2022-05-23 16:29:45
+  timecard_id: 
+  user_id: 

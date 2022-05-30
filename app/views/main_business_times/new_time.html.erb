@@ -1,0 +1,55 @@
+<section class="section">
+<div class ="section_inner">
+<h1>勤務時間登録</h1>
+
+<% if @sub_businesses.exists? %>
+  <%= link_to "副業勤怠打刻へ", decide_sub_business_times_path(@timecard) %>
+<% end %>
+
+<p id="RealtimeClockArea">現在時刻:</p>
+
+<%= form_with(model: @main_business_time, local: true) do |form| %>
+  <% if @main_business_time.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(main_business_time.errors.count, "error") %> prohibited this main_business_time from being saved:</h2>
+
+      <ul>
+        <% main_business_time.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :start_time_main, value: "" %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :end_time_main, value: "" %>
+  </div>
+
+  <% @timecard.each do |timecard| %>
+  <%= form.hidden_field :timecard_id, value: timecard.id %>
+  <%= form.hidden_field :user_id, value: timecard.user_id %>
+  <% end %>
+
+  <div class="actions" id="submit_btn">
+    <%= form.submit :"出勤", id: "start_work" %>
+  </div>
+<% end %>
+</div>
+</section>
+
+<%= javascript_pack_tag "main_business_time/new_time" %>
+
+<script>
+function showClock1() {
+   var nowTime = new Date();
+   var nowHour = nowTime.getHours();
+   var nowMin  = nowTime.getMinutes();
+   var msg = "現在時刻:" + nowHour + ":" + nowMin;
+   document.getElementById("RealtimeClockArea").innerHTML = msg;
+}
+setInterval('showClock1()',1000);
+</script>

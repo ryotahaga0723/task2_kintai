@@ -1,0 +1,49 @@
+<section class="section">
+<div class ="section_inner">
+<h1>スケジュール修正</h1>
+
+<%= form_with(model: [@timecard, @schedule], local: true) do |form| %>
+    <% if @schedule.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
+  
+        <ul>
+          <% @schedule.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+    <%= form.label :平日／休日 %>
+    <%= form.select :holiday, ['平日', '休日'], { include_blank: '選択してください'}, { class: 'form-control' , required: true } %>
+  </div>
+  
+  <div id="weekly_format">
+    <div class="field">
+      <%= form.label :開始時刻 %>
+      <%= form.time_select :start_time_sch, id: "start_time_sch" %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :終了時刻 %>
+      <%= form.time_select :end_time_sch %>
+    </div>
+  </div>
+
+  <%= form.hidden_field :timecard_id %>
+  <%= form.hidden_field :user_id %>
+  
+    <div class="actions" id="submit_btn" style="display: none">
+      <%= form.submit "更新" %>
+    </div>
+  <% end %>
+
+  <p id="message">スケジュールを登録してください</p>
+
+  <%= link_to '戻る', schedules_path(user: @schedule.user) %>
+
+  </div>
+</section>
+  <%= javascript_pack_tag "schedule/edit" %>

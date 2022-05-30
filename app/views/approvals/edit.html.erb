@@ -1,0 +1,23 @@
+<section class="section">
+<div class ="section_inner">
+<h1>副業承認</h1>
+
+<%= form_with(model: @approval, local: true) do |form| %>
+  <div class="field", id="visually">
+    <span class="visually">副業</span><br>
+    <div class="radio-inline">
+      <%= form.label :承認 %>
+      <%= form.radio_button :approval, :承認 %>
+    </div>
+    <div class="radio-inline">
+      <%= form.label :否認 %>
+      <%= form.radio_button :approval, :否認, checked: "checked" %>
+    </div>
+ </div>
+
+  <div class="actions">
+    <%= form.submit "登録" %>
+  </div>
+<% end %>
+</div>
+</section>

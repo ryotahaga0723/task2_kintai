@@ -1,0 +1,62 @@
+<section class="section">
+<div class ="section_inner">
+<h1>副業勤怠修正</h1>
+
+<form>
+  <div class = "start_time_main">
+    <label>開始時刻</label>
+    <input type="number" value=<%= @sub_business_time.start_time_sub.hour unless @sub_business_time.start_time_sub.nil? %> id="start_time_hour" min=0 max=23 step="1">:
+    <input type="number" value=<%= @sub_business_time.start_time_sub.min unless @sub_business_time.start_time_sub.nil? %> id="start_time_minute" min=0 max=59 step="1"><br>
+  </div>
+
+  <div class = "end_time_main">
+    <label>終了時刻</label>
+    <input type="number" value=<%= @sub_business_time.end_time_sub.hour unless @sub_business_time.end_time_sub.nil? %> id="end_time_hour" min=0 max=23 step="1">:
+    <input type="number" value=<%= @sub_business_time.end_time_sub.min unless @sub_business_time.end_time_sub.nil? %> id="end_time_minute" min=0 max=59 step="1"><br>
+  </div>
+
+  <input type="hidden" id="date" value=<%= @timecard.date %>>
+</form>
+
+<%= form_with(model: @sub_business_time, local: true) do |form| %>
+  <% if @sub_business_time.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sub_business_time.errors.count, "error") %> prohibited this sub_business_time from being saved:</h2>
+
+      <ul>
+        <% sub_business_time.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :start_time_sub %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :end_time_sub %>
+  </div>
+
+  <%= form.hidden_field :timecard_id, value: @timecard.id %>
+  <%= form.hidden_field :user_id, value: @timecard.user_id %>
+
+  <div class="field">
+  <%= form.label :副業 %>
+  <%= form.select :sub_business_id, @sub_businesses.collect { |sub| [sub.sub_business_company, sub.id]}, { include_blank: '選択してください'}, { class: 'form-control' , required: true} %>
+  </div>
+
+  <div class="actions" id="submit_btn">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<p id="message"></p>
+
+<%= link_to '戻る', index_sub_timecards_path(@timecard.user) %>
+
+</div>
+</section>
+
+<%= javascript_pack_tag "sub_business_time/edit" %>

@@ -1,0 +1,135 @@
+<section class="section">
+<div class ="section_inner">
+<h1>勤怠記録一覧 <%= @month.strftime("%m") %>月</h1>
+
+<p id="notice"><%= notice %></p>
+
+
+<%= link_to "前月", index_admin_month_timecards_path(month: @month.prev_month) %>
+<%= link_to "翌月", index_admin_month_timecards_path(month: @month.next_month) %>
+
+<table class="osare3-table col4t">
+  <thead>
+    <tr>
+      <th></th>
+      <th>名前</th>
+      <th>総勤務時間</th>
+      <th>総残業時間</th>
+      <th>本業勤務時間</th>
+      <th>副業勤務時間</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <% @total_work_time_main_sum = 0 %>
+      <% @total_work_time_sub_sum = 0 %>
+      <% @total_work_time_sub2_sum = 0 %>
+      <% @timecards_work_weekday = 0 %>
+      <% @total_prescribed_time_sub = 0 %>
+
+      <% user.timecards.where(date: @month.all_month).each do |timecard| %>
+        <% unless timecard.main_business_time == nil %>
+          <% unless timecard.main_business_time.end_time_main == nil %>
+            <% @total_work_time_main_sum += timecard.total_work_time_main_month %>
+          <% end %>
+        <% end %>
+
+        <% unless timecard.sub_business_time == nil %>
+          <% unless timecard.sub_business_time.end_time_sub == nil %>
+            <% @total_work_time_sub_sum += timecard.total_work_time_sub_month %>
+            <% @total_work_time_sub2_sum += timecard.total_work_time_sub_month %>
+          <% end %>
+        <% end %>
+      <% end %>  
+
+      <% @timecards_work_weekday = user.timecards.left_outer_joins(:main_business_time, :schedule).where(date: @month.all_month).where.not(main_business_times: {timecard_id: nil}).where(schedules: {holiday: "平日"}).count %>
+      <% @timecards_work_weekend = user.timecards.left_outer_joins(:main_business_time, :schedule).where(date: @month.all_month).where.not(main_business_times: {timecard_id: nil}).where(schedules: {holiday: "休日"}).count %>
+
+      
+      <% user.sub_businesses.each do |sub| %>
+        <% @total_prescribed_time_sub += sub.prescribed_time_sub %>
+      <% end %>
+
+      <tr>
+        <td>
+        <% if user.sub_business_2_presents? %>
+          <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 30 %>
+            <div class="alert_30">30</div>
+          <% end %>
+          <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
+            <div class="alert_20">20</div>
+          <% end %>
+
+        <% elsif user.sub_business_3_presents? %>
+          <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * (40 - @total_prescribed_time_sub) / 5 >= 30 %>
+            <div class="alert_30">30</div>
+          <% end %>
+          <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
+            <div class="alert_20">20</div>
+          <% end %>
+        <% else %>
+          <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 30 %>
+            <div class="alert_30">30</div>
+          <% end %>
+          <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
+            <div class="alert_20">20</div>
+          <% end %>
+        <% end %>
+
+
+        </td>
+
+        <td><%= link_to user.name, timecards_path(user) %></td>
+
+        <td>
+          <%= ((@total_work_time_main_sum + @total_work_time_sub_sum) / 3600).floor %>時間
+          <%= ((@total_work_time_main_sum + @total_work_time_sub_sum) % 3600 / 60).floor %>分
+        </td>
+
+        <% #総残業時間 %>
+        <% if user.sub_business_2_presents? %>
+          <td>
+            <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 > 0 %>
+              <%= ((@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5).floor %>時間
+              <%= ((@total_work_time_main_sum + @total_work_time_sub_sum) % 3600 / 60).floor %>分
+            <% else %>
+              0時間
+            <% end %>
+          </td>
+        <% elsif user.sub_business_3_presents? %>
+          <td>
+            <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * (40 - @total_prescribed_time_sub) / 5 > 0 %>
+              <%= (@total_work_time_main_sum / 3600 - @timecards_work_weekday * (40 - @total_prescribed_time_sub) / 5).floor %>時間
+              <%= (@total_work_time_main_sum % 3600 /60 - @timecards_work_weekday ).floor %>分
+            <% else %>
+              0時間
+            <% end %>
+          </td>
+        <% else %>
+          <td>
+            <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 > 0 %>
+              <%= (@total_work_time_main_sum / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5).floor %>時間
+              <%= (@total_work_time_main_sum % 3600 /60 ).floor %>分
+            <% else %>
+              0時間
+            <% end %>
+          </td>
+        <% end %>
+
+        <td>
+          <%= ((@total_work_time_main_sum) / 3600).floor %>時間
+          <%= ((@total_work_time_main_sum) % 3600 / 60).floor %>分
+        </td>
+
+        <td>
+          <%= ((@total_work_time_sub_sum) / 3600).floor %>時間
+          <%= ((@total_work_time_sub_sum) % 3600 / 60).floor %>分
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</section>

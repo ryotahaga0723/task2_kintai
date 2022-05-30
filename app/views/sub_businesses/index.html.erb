@@ -1,0 +1,133 @@
+<section class="section">
+<div class ="section_inner">
+<h1>副業一覧</h1>
+
+<% if current_user.admin? %>
+  <h3>承認済み</h3>
+  <table class="osare3-table col4t">
+    <thead>
+      <tr>
+        <th>社員名</th>
+        <th>副業形態</th>
+        <th>副業先</th>
+        <th>仕事内容</th>
+        <th>確認</th>
+        <th>削除</th>
+        <th>承認</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sub_businesses_approval.each do |sub_business| %>
+        <tr>
+          <td><%= sub_business.user.name %></td>
+          <td><%= sub_business.status %></td>
+          <td><%= sub_business.sub_business_company %></td>
+          <td><%= sub_business.sub_business_content %></td>
+          <td><%= link_to '確認', sub_business_path(sub_business) %></td>
+          <td><%= link_to '削除', sub_business, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= sub_business.approval.approval %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3>承認待ち</h3>
+  <table class="osare3-table col4t">
+    <thead>
+      <tr>
+        <th>社員名</th>
+        <th>副業形態</th>
+        <th>副業先</th>
+        <th>仕事内容</th>
+        <th>編集</th>
+        <th>削除</th>
+        <th>承認</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sub_businesses.each do |sub_business| %>
+        <tr>
+          <td><%= sub_business.user.name %></td>
+          <td><%= sub_business.status %></td>
+          <td><%= sub_business.sub_business_company %></td>
+          <td><%= sub_business.sub_business_content %></td>
+          <td>
+            <% if sub_business.user_id == current_user.id %>
+              <%= link_to '編集', edit_sub_business_path(sub_business), data: {"turbolinks" => false} %>
+            <% end %>
+          </td>
+          <td><%= link_to '削除', sub_business, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to sub_business.approval.approval, edit_approval_path(sub_business) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+  <h3>承認済み</h3>
+  <table class="osare3-table col4t">
+    <thead>
+      <tr>
+        <th>副業形態</th>
+        <th>副業先</th>
+        <th>仕事内容</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sub_businesses_approval.each do |sub_business| %>
+        <tr>
+          <td><%= sub_business.status %></td>
+          <td><%= sub_business.sub_business_company %></td>
+          <td><%= sub_business.sub_business_content %></td>
+          <td><%= link_to '確認', sub_business_path(sub_business) %></td>
+          <td><%= sub_business.approval.approval %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3>承認待ち</h3>
+  <table class="osare3-table col4t">
+    <thead>
+      <tr>
+        <th>副業形態</th>
+        <th>副業先</th>
+        <th>仕事内容</th>
+        <th>編集</th>
+        <th>削除</th>
+        <th>承認</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sub_businesses.each do |sub_business| %>
+        <tr>
+          <td><%= sub_business.status %></td>
+          <td><%= sub_business.sub_business_company %></td>
+          <td><%= sub_business.sub_business_content %></td>
+          <td><%= sub_business.approval.approval %></td>
+          <td>
+            <% if sub_business.user_id == current_user.id %>
+              <%= link_to '編集', edit_sub_business_path(sub_business), data: {"turbolinks" => false} %>
+            <% end %>
+          </td>
+          <td><%= link_to '削除', sub_business, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<br>
+
+<%= link_to '新規登録', new_sub_business_path, data: {"turbolinks" => false} %>
+</div>
+</section>

@@ -1,0 +1,52 @@
+<%= form_with(model: sub_business, local: true) do |form| %>
+  <% if sub_business.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sub_business.errors.count, "error") %> prohibited this sub_business from being saved:</h2>
+
+      <ul>
+        <% sub_business.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :副業形態 %>
+    <%= form.select :status, ['雇用契約（弊社が先の場合）', '雇用契約（弊社が後の場合）', '雇用モデル', 'その他'], { include_blank: '選択してください'}, { class: 'form-control' , required: true} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :副業先 %>
+    <%= form.text_field :sub_business_company %>
+  </div>
+
+  <div class="field">
+    <%= form.label :仕事内容 %>
+    <%= form.text_area :sub_business_content %>
+  </div>
+
+  <div id="status2_format" style="display: none;">
+  <div class="field">
+    <%= form.label :法定労働時間（時間／週） %>
+    <%= form.number_field :prescribed_time_sub %>
+  </div>
+
+  <div class="field">
+    <%= form.label :３６協定時間（時間／月） %>
+    <%= form.number_field :over_time %>
+  </div>
+  </div>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div id="approval_forms">
+  <%= form.fields_for :approval do |approval| %>
+    <%= approval.hidden_field :approval, :value => "承認待ち" %>
+    <%= approval.hidden_field :user_id, :value => current_user.id %>
+  <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "登録" %>
+  </div>
+<% end %>

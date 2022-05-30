@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time_sch: 2022-05-18 15:51:35
+  end_time_sch: 2022-05-18 15:51:35
+  holiday: 
+  timecard_id: 
+
+two:
+  start_time_sch: 2022-05-18 15:51:35
+  end_time_sch: 2022-05-18 15:51:35
+  holiday: 
+  timecard_id: 

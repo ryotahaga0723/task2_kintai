@@ -1,0 +1,102 @@
+<section class="section">
+<div class ="section_inner">
+<% if @applies.exists? %>
+<h1>休暇申請承認待ち</h1>
+
+<table class="osare3-table col4t">
+  <thead>
+    <tr>
+      <th>申請日</th>
+      <th>名前</th>
+      <th>申請区分</th>
+      <th>休暇対象日</th>
+      <th>承認</th>
+      <th>削除</th>
+    </tr>
+  <thead>
+  
+  <% if current_user.admin? %>
+    <tbody>
+      <% @applies.each do |apply| %>
+      <tr>
+        <td><%= apply.created_at.strftime("%m/%d") %></td>
+        <td><%= apply.user.name %></td>
+        <td><%= apply.classification %></td>
+        <td><%= apply.schedule.timecard.date.strftime("%m/%d") %></td>
+        <td><%= link_to "承認", update_apply_schedule_path(apply.schedule, user: @user, apply: apply), method: :post %></td>
+        <td><%= link_to "削除", apply_path(apply), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  <% else %>
+    <tbody>
+      <% @applies_user.each do |apply| %>
+        <tr>
+          <td><%= apply.created_at.strftime("%m/%d") %></td>
+          <td><%= apply.user.name %></td>
+          <td><%= apply.classification %></td>
+          <td><%= apply.schedule.timecard.date.strftime("%m/%d") %></td>
+          <td><%= apply.apply %></td>
+          <td><%= link_to "削除", apply_path(apply), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>
+<% end %>
+
+<h1><%= @user.name %>のスケジュール一覧 <%= @month.strftime("%m") %>月</h1>
+
+<p id="notice"><%= notice %></p>
+
+<%= link_to "前月", schedules_path(month: @month.prev_month, user: @user) %>
+<%= link_to "翌月", schedules_path(month: @month.next_month, user: @user) %>
+
+<table class="osare3-table col4t">
+  <thead>
+    <tr>
+      <th>日付</th>
+      <th>休日休暇</th>
+      <th>スケジュール</th>
+      <th>新規作成/編集</th>
+      <th>休暇申請</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @timecards.each do |timecard| %>
+      <tr>
+        <td><%= timecard.date.strftime("%m/%d") %></td>
+        <% unless timecard.schedule.nil? %>
+          <td><%= timecard.schedule.holiday %></td>
+          <% if timecard.schedule.holiday == "平日" %>
+            <td><%= timecard.schedule.start_time_sch.strftime("%H:%M") %>～<%= timecard.schedule.end_time_sch.strftime("%H:%M") %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+          <% if timecard.schedule.holiday != "有給休暇" %>
+            <td><%= link_to '編集', edit_schedule_path(timecard.schedule), data: {"turbolinks" => false} %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        <% else %>
+          <td></td>
+          <td></td>
+          <td><%= link_to '新規作成', new_schedule_path(user: @user, timecard: timecard), data: {"turbolinks" => false} %></td>
+        <% end %>
+        <% unless timecard.schedule.nil? %>
+          <% if @user == current_user %>
+            <% if timecard.schedule.holiday != "有給休暇" %>
+              <td><%= link_to "申請", applies_path(user: @user, schedule: timecard.schedule), method: :post %>
+            <% else %>
+              <td><%= link_to "取り消し", applies_path(user: @user, schedule: timecard.schedule), method: :post %>
+            <% end %>
+          <% end %>
+        <% end %>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</section>

@@ -4,10 +4,10 @@ class SubBusinessesController < ApplicationController
   # GET /sub_businesses or /sub_businesses.json
   def index
     if current_user.admin?
-      @sub_businesses_approval = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(approvals: {approval: 1})
+      @sub_businesses_approval = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(approvals: {approval: 1}).page(params[:page]).per(10)
       @sub_businesses = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(approvals: {approval: 0})
     else
-      @sub_businesses_approval = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(users: {id: current_user.id}).where(approvals: {approval: 1})
+      @sub_businesses_approval = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(users: {id: current_user.id}).where(approvals: {approval: 1}).page(params[:page]).per(10)
       @sub_businesses = SubBusiness.left_outer_joins(:user).left_outer_joins(:approval).where(users: {id: current_user.id}).where(approvals: {approval: 0})
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_31_045339) do
+ActiveRecord::Schema.define(version: 2022_05_24_062926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,12 +36,6 @@ ActiveRecord::Schema.define(version: 2022_05_31_045339) do
     t.index ["user_id"], name: "index_approvals_on_user_id"
   end
 
-  create_table "async_logs", force: :cascade do |t|
-    t.string "message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "contracts", force: :cascade do |t|
     t.bigint "prescribed_time_main", default: 40, null: false
     t.bigint "agreement_time", default: 45, null: false
@@ -64,7 +58,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_045339) do
 
   create_table "schedules", force: :cascade do |t|
     t.datetime "start_time_sch", null: false
-    t.datetime "end_time_sch"
+    t.datetime "end_time_sch", null: false
     t.bigint "holiday", default: 0, null: false
     t.bigint "timecard_id", null: false
     t.bigint "user_id", null: false

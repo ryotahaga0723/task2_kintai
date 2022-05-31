@@ -56,25 +56,25 @@
         <td>
         <% if user.sub_business_2_presents? %>
           <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 30 %>
-            <div class="alert_30">30</div>
+            <div class="alert_30">30over</div>
           <% end %>
           <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
-            <div class="alert_20">20</div>
+            <div class="alert_20">20over</div>
           <% end %>
 
         <% elsif user.sub_business_3_presents? %>
           <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * (40 - @total_prescribed_time_sub) / 5 >= 30 %>
-            <div class="alert_30">30</div>
+            <div class="alert_30">30over</div>
           <% end %>
           <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
-            <div class="alert_20">20</div>
+            <div class="alert_20">20over</div>
           <% end %>
         <% else %>
           <% if @total_work_time_main_sum / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 30 %>
-            <div class="alert_30">30</div>
+            <div class="alert_30">30over</div>
           <% end %>
           <% if (@total_work_time_main_sum + @total_work_time_sub_sum) / 3600 - @timecards_work_weekday * user.contract.prescribed_time_main / 5 >= 20 && @timecards_work_weekend >= 2 %>
-            <div class="alert_20">20</div>
+            <div class="alert_20">20over</div>
           <% end %>
         <% end %>
 

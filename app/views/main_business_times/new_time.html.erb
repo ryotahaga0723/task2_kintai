@@ -3,10 +3,12 @@
 <h1>勤務時間登録</h1>
 
 <% if @sub_businesses.exists? %>
-  <%= link_to "副業勤怠打刻へ", decide_sub_business_times_path(@timecard) %>
+  <div class="another-dakoku">
+    <%= link_to "副業勤怠打刻へ", decide_sub_business_times_path(@timecard) %>
+  </div>
 <% end %>
 
-<p id="RealtimeClockArea">現在時刻:</p>
+<h2 id="RealtimeClockArea"></h2>
 
 <%= form_with(model: @main_business_time, local: true) do |form| %>
   <% if @main_business_time.errors.any? %>
@@ -34,7 +36,7 @@
   <%= form.hidden_field :user_id, value: timecard.user_id %>
   <% end %>
 
-  <div class="actions" id="submit_btn">
+  <div class="actions submit_time" id="submit_btn">
     <%= form.submit :"出勤", id: "start_work" %>
   </div>
 <% end %>
@@ -48,7 +50,7 @@ function showClock1() {
    var nowTime = new Date();
    var nowHour = nowTime.getHours();
    var nowMin  = nowTime.getMinutes();
-   var msg = "現在時刻:" + nowHour + ":" + nowMin;
+   var msg = nowHour + ":" + nowMin;
    document.getElementById("RealtimeClockArea").innerHTML = msg;
 }
 setInterval('showClock1()',1000);

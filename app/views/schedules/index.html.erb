@@ -87,8 +87,14 @@
         <% end %>
         <% unless timecard.schedule.nil? %>
           <% if @user == current_user %>
-            <% if timecard.schedule.holiday != "有給休暇" %>
-              <td><%= link_to "申請", applies_path(user: @user, schedule: timecard.schedule), method: :post %>
+            <% if timecard.schedule.holiday == "平日" %>
+              <% if timecard.schedule.applies.where(applies: {apply: "承認待ち"}).present? %>
+                <td>申請待ち</td>
+              <% else %>
+                <td><%= link_to "申請", applies_path(user: @user, schedule: timecard.schedule), method: :post %>
+              <% end %>
+            <% elsif timecard.schedule.holiday == "休日" %>
+              <td></td>
             <% else %>
               <td><%= link_to "取り消し", applies_path(user: @user, schedule: timecard.schedule), method: :post %>
             <% end %>

@@ -1,18 +1,28 @@
 <section class="section">
 <div class ="section_inner">
-<h1>勤務時間登録</h1>
+<h1>副業勤務時間登録</h1>
 
-<%= link_to "本業勤怠打刻へ", decide_main_business_times_path(@timecard) %>
+<div class="another-dakoku">
+  <%= link_to "本業勤怠打刻へ", decide_main_business_times_path(@timecard) %>
+</div>
 
-<p id="RealtimeClockArea">現在時刻:</p>
+<h2 id="RealtimeClockArea"></h2>
 
-<form>
-  <label>開始時刻</label>
-  <input type="text" readonly= true size=2 value=<%= @sub_business_time.start_time_sub.hour unless @sub_business_time.start_time_sub.nil? %> >:
-  <input type="text" readonly= true size=2 value=<%= @sub_business_time.start_time_sub.min unless @sub_business_time.start_time_sub.nil? %> ><br>
-  <label>終了時刻</label>
-  <input type="text" readonly= true size=2 value=<%= @sub_business_time.end_time_sub.hour unless @sub_business_time.end_time_sub.nil? %> >:
-  <input type="text" readonly= true size=2 value=<%= @sub_business_time.end_time_sub.min unless @sub_business_time.end_time_sub.nil? %> >
+<form class= "dakoku">
+  <div class="set-time">
+    <label>開始時刻</label>
+    <div class="dakoku-time">
+      <input type="text" readonly= true size=2 value=<%= @sub_business_time.start_time_sub.hour unless @sub_business_time.start_time_sub.nil? %> >:
+      <input type="text" readonly= true size=2 value=<%= @sub_business_time.start_time_sub.min unless @sub_business_time.start_time_sub.nil? %> ><br>
+    </div>
+  </div>
+  <div class="set-time">
+    <label>終了時刻</label>
+    <div class="dakoku-time">
+      <input type="text" readonly= true size=2 value=<%= @sub_business_time.end_time_sub.hour unless @sub_business_time.end_time_sub.nil? %> >:
+      <input type="text" readonly= true size=2 value=<%= @sub_business_time.end_time_sub.min unless @sub_business_time.end_time_sub.nil? %> >
+    </div>
+  </div>
 </form>
 
 <%= form_with(model: @sub_business_time, local: true) do |form| %>
@@ -41,7 +51,7 @@
   <%= form.hidden_field :user_id, value: timecard.user_id %>
   <% end %>
 
-  <div class="actions" id="submit_btn">
+  <div class="actions submit_time" id="submit_btn">
     <%= form.submit :"退勤", id: "end_work" %>
   </div>
 <% end %>
@@ -64,7 +74,7 @@ function showClock1() {
    nowMin = "0" + nowMin
   }
 
-  var msg = "現在時刻:" + nowHour + ":" + nowMin;
+  var msg = nowHour + ":" + nowMin;
   document.getElementById("RealtimeClockArea").innerHTML = msg;
 }
 

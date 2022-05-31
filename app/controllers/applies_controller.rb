@@ -1,12 +1,15 @@
 class AppliesController < ApplicationController
   def create
-    schedule = Schedule.find(params[:schedule])
+    @schedule = Schedule.find(params[:schedule])
     user = User.find(params[:user])
-    if schedule.holiday != "有給休暇"
-      Apply.create(classification: 1, schedule_id: schedule.id, user_id: user.id)
+    if @schedule.holiday != "有給休暇"
+      Apply.create(classification: 1, schedule_id: @schedule.id, user_id: user.id)
     else
-      Apply.create(classification: 2, schedule_id: schedule.id, user_id: user.id)
-    end   
+      Apply.create(classification: 2, schedule_id: @schedule.id, user_id: user.id)
+    end
+    User.where(admin: true).each do |admin|
+      UserMailer.with(to: admin.email, name: admin.name, schedule: @schedule).schedule_apply.deliver_now
+    end
     redirect_to schedules_path(user: current_user), notice: "休暇申請しました"
   end
 
@@ -15,6 +18,4 @@ class AppliesController < ApplicationController
     apply.destroy
     redirect_to schedules_url(user: current_user.id), notice: "休暇申請を削除しました"
   end
-
-
 end

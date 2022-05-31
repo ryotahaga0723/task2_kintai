@@ -54,6 +54,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rails-i18n'
 gem 'jquery-rails'
-gem 'simple_calendar', '~> 2.0'
 gem 'sidekiq'
 gem 'whenever'
+gem 'letter_opener_web'

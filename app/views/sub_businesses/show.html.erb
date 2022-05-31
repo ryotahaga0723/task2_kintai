@@ -1,32 +1,41 @@
 <section class="section">
 <div class ="section_inner">
 
+<h1>副業確認</h1>
+
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>副業形態</strong>
-  <%= @sub_business.status %>
-</p>
+<table class="osare3-table col4t show detail">
 
-<p>
-  <strong>副業先</strong>
-  <%= @sub_business.sub_business_company %>
-</p>
+<tr>
+  <td><strong>副業形態</strong></td>
+  <td><%= @sub_business.status %></td>
+</tr>
 
-<p>
-  <strong>業務内容</strong>
-  <%= @sub_business.sub_business_content %>
-</p>
+<tr>
+  <td><strong>副業先</strong></td>
+  <td><%= @sub_business.sub_business_company %></td>
+</tr>
 
-<p>
-  <strong>所定労働時間</strong>
-  <%= @sub_business.prescribed_time_sub %>
-</p>
+<tr>
+  <td><strong>業務内容</strong></td>
+  <td><%= @sub_business.sub_business_content %></td>
+</tr>
 
-<p>
-  <strong>36協定時間</strong>
-  <%= @sub_business.over_time %>
-</p>
+<% if @sub_business.status == "雇用契約（弊社が後の場合）" || @sub_business.status == "雇用モデル" %>
+<tr>
+  <td><strong>所定労働時間</strong></td>
+  <td><%= @sub_business.prescribed_time_sub %></td>
+</tr>
+
+<tr>
+  <td><strong>36協定時間</strong></td>
+  <td><%= @sub_business.over_time %></td>
+</tr>
+<% end %>
+
+</table>
 
 <%= link_to '戻る', sub_businesses_path %>
 

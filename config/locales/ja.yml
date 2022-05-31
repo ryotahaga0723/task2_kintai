@@ -6,13 +6,9 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
         email: "メールアドレス"
-      drinking:
-        alcohols: "お酒"
-      alcohols:
-        kind: "種類"
-        frequency: "度数"
-        quantity: "量"
-        number: "本数"
+      sub_business:
+        sub_business_company: "副業先"
+        sub_business_content: "仕事内容"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
@@ -222,3 +218,6 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m月%d日 %H%M"
     pm: 午後
+  user_mailer:
+    welcome:
+      subject: "登録完了"

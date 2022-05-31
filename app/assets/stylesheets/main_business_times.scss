@@ -1,3 +1,45 @@
 // Place all the styles related to the main_business_times controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.dakoku{
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-bottom: 20px;
+}
+
+.set-time{
+    display: flex;
+    padding-right: 20px;
+}
+
+.dakoku-time{
+    padding-left: 10px;
+}
+
+@media (max-width: 575px) {
+    .dakoku{
+      display: block;
+    }
+    .set-time{
+      display: flex;
+      padding-top: 10px;
+    }
+  }
+  
+#RealtimeClockArea{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.submit_time{
+    font-size: 20px;
+    text-align: center;
+}
+
+.another-dakoku{
+  text-align: right;
+}

@@ -9,8 +9,7 @@ Rails.application.routes.draw do
       get :edit_admin
     end
   end
-
-  resources :timecards do
+  resources :timecards, only: [:index, :new, :create, :show, :edit, :update] do
     collection do
       get :index_sub
       get :index_admin
@@ -48,4 +47,6 @@ Rails.application.routes.draw do
     require "sidekiq/web"
     mount Sidekiq::Web => "/sidekiq"
   end
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

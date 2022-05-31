@@ -31,7 +31,10 @@ class SubBusinessesController < ApplicationController
     @sub_business = SubBusiness.new(sub_business_params)
 
     if @sub_business.save
-      redirect_to sub_businesses_path(current_user.id)
+      User.where(admin: true).each do |user|
+        UserMailer.with(to: user.email, name: user.name, sub_business: @sub_business).sub_business_apply.deliver_now
+      end
+      redirect_to sub_businesses_path(current_user.id), notice: "副業を登録しました"
     else
       render :new, status: :unprocessable_entity
     end
@@ -40,7 +43,7 @@ class SubBusinessesController < ApplicationController
   # PATCH/PUT /sub_businesses/1 or /sub_businesses/1.json
   def update
     if @sub_business.update(sub_business_params)
-      redirect_to sub_businesses_path(current_user.id)
+      redirect_to sub_businesses_path(current_user.id), notice: "副業を更新しました"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -49,11 +52,7 @@ class SubBusinessesController < ApplicationController
   # DELETE /sub_businesses/1 or /sub_businesses/1.json
   def destroy
     @sub_business.destroy
-
-    respond_to do |format|
-      format.html { redirect_to sub_businesses_url, notice: "Sub business was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to sub_businesses_url, notice: "副業を削除しました"
   end
 
   private

@@ -1,91 +1,89 @@
 <section class="section">
-<div class ="section_inner">
-<h1>勤怠記録一覧 <%= @day.strftime("%m/%d") %></h1>
+  <div class ="section_inner">
+    <h1>勤怠記録一覧 <%= @day.strftime("%m/%d") %></h1>
 
-<p id="notice"><%= notice %></p>
+    <p id="notice"><%= notice %></p>
 
-<%= link_to "月ごと", index_admin_month_timecards_path %>
-
-<table class="osare3-table col4t">
-  <tr>
-    <th>出勤前</th>
-    <% @timecards_before_work.each do |timecard| %>
-      <td><%= timecard.user.name %></td>
-    <% end %>
-  </tr>
-  <tr>
-    <th>勤務中</th>
-    <% @timecards_working.each do |timecard| %>
-      <td><%= timecard.user.name %></td>
-    <% end %>
-  </tr>
-  <tr>
-    <th>退勤済み</th>
-    <% @timecards_after_work.each do |timecard| %>
-      <td><%= timecard.user.name %></td>
-    <% end %>
-  </tr>
-  <tr>
-    <th>休日休暇</th>
-    <% @timecards_holiday_work.each do |timecard| %>
-      <td><%= timecard.user.name %></td>
-    <% end %>
-  </tr>
-  <tr>
-  <th>未定</th>
-  <% @timecards_work_or_not.each do |timecard| %>
-    <td><%= timecard.user.name %></td>
-  <% end %>
-</tr>
-
-</table>
-
-<%= link_to "前日", index_admin_timecards_path(day: @day.prev_day) %>
-<%= link_to "翌日", index_admin_timecards_path(day: @day.next_day) %>
-
-<table class="osare3-table col4t">
-  <thead>
-    <tr>
-      <th></th>
-      <th>名前</th>
-      <th>休日休暇</th>
-      <th>スケジュール</th>
-      <th>実績</th>
-      <th>勤務時間</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @timecards.each do |timecard| %>
+    <table class="osare3-table col4t">
       <tr>
-        <td></td>
-        <td><%= link_to timecard.user.name, timecards_path(timecard.user) %></td>
-        <% unless timecard.schedule.nil? %>
-          <td><%= timecard.schedule.holiday %></td>
-          <% if timecard.schedule.holiday == "平日" %>
-            <td><%= timecard.schedule.start_time_sch.strftime("%H:%M") %>~<%= timecard.schedule.end_time_sch.strftime("%H:%M") %></td>
-          <% else %>
-            <td></td>
-          <% end %>
-        <% else %>
-          <td></td>
-          <td></td>
-        <% end %>
-        <% unless timecard.main_business_time.nil? %>
-          <% unless timecard.main_business_time.end_time_main == nil %>
-            <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~<%= timecard.main_business_time.end_time_main.strftime("%H:%M") %></td>
-          <% else %>
-            <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~</td>
-          <% end %>
-          <td><%= timecard.total_work_time_main_hour %>時間<%= timecard.total_work_time_main_minute %>分</td>
-        <% else %>
-          <td></td>
-          <td></td>
+        <th>出勤前</th>
+        <% @timecards_before_work.each do |timecard| %>
+          <td><%= timecard.user.name %></td>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
+      <tr>
+        <th>勤務中</th>
+        <% @timecards_working.each do |timecard| %>
+          <td><%= timecard.user.name %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <th>退勤済み</th>
+        <% @timecards_after_work.each do |timecard| %>
+          <td><%= timecard.user.name %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <th>休日休暇</th>
+        <% @timecards_holiday_work.each do |timecard| %>
+          <td><%= timecard.user.name %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <th>未定</th>
+        <% @timecards_work_or_not.each do |timecard| %>
+          <td><%= timecard.user.name %></td>
+        <% end %>
+      </tr>
+    </table>
+
+    <%= link_to "前日", index_admin_timecards_path(day: @day.prev_day) %>
+    <%= link_to "翌日", index_admin_timecards_path(day: @day.next_day) %>
+    <%= link_to "月ごと", index_admin_month_timecards_path %>
+
+    <table class="osare3-table col4t">
+      <thead>
+        <tr>
+          <th></th>
+          <th>名前</th>
+          <th>休日休暇</th>
+          <th>スケジュール</th>
+          <th>実績</th>
+          <th>勤務時間</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @timecards.each do |timecard| %>
+          <tr>
+            <td></td>
+            <td><%= link_to timecard.user.name, timecards_path(timecard.user) %></td>
+            <% unless timecard.schedule.nil? %>
+              <td><%= timecard.schedule.holiday %></td>
+              <% if timecard.schedule.holiday == "平日" %>
+                <td><%= timecard.schedule.start_time_sch.strftime("%H:%M") %>~<%= timecard.schedule.end_time_sch.strftime("%H:%M") %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+            <% else %>
+              <td></td>
+              <td></td>
+            <% end %>
+            <% unless timecard.main_business_time.nil? %>
+              <% unless timecard.main_business_time.end_time_main == nil %>
+                <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~<%= timecard.main_business_time.end_time_main.strftime("%H:%M") %></td>
+              <% else %>
+                <td><%= timecard.main_business_time.start_time_main.strftime("%H:%M") %>~</td>
+              <% end %>
+              <td><%= timecard.total_work_time_main_hour %>時間<%= timecard.total_work_time_main_minute %>分</td>
+            <% else %>
+              <td></td>
+              <td></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </section>

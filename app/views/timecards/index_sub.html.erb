@@ -119,9 +119,9 @@
         <td>
           <% if current_user == @user %>
             <% if timecard.sub_business_time.nil? %>
-              <%= link_to '勤怠入力', new_sub_business_time_path(timecard.id) %>
+              <%= link_to '勤怠入力', new_sub_business_time_path(timecard.id), data: {"turbolinks" => false} %>
             <% else %>
-              <%= link_to '編集', edit_sub_business_time_path(timecard.sub_business_time.id, timecard: timecard) %>
+              <%= link_to '編集', edit_sub_business_time_path(timecard.sub_business_time.id, timecard: timecard), data: {"turbolinks" => false} %>
             <% end %>
           <% end %>
         </td>

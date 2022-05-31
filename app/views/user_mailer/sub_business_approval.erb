@@ -1,0 +1,24 @@
+<p><%= @name %> 様</p>
+<p>管理者さまより副業申請結果が届いております。</p>
+
+===============================
+<p>申請結果：<%= @approval.approval %></p>
+===============================
+
+<p>以下が申請内容です。</p>
+<table>
+  <tr>
+    <td>副業形態</td>
+    <td><%= @approval.sub_business.status %></td>
+  </tr>
+
+  <tr>
+    <td>副業先</td>
+    <td><%= @approval.sub_business.sub_business_company %></td>
+  </tr>
+
+  <tr>
+    <td>仕事内容</td>
+    <td><%= @approval.sub_business.sub_business_content %></td> 
+  </tr>
+</table>

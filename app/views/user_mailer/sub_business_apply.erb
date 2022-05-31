@@ -1,0 +1,28 @@
+<p><%= @name %> 様</p>
+<p><%= @sub_business.user.name %>さんから副業申請が依頼されました。<br>
+申請内容を確認の上、承認もしくは否認をアプリケーション上で選択してください。</p>
+
+※このメールは送信専用です。<br>
+
+===============================
+
+<table>
+  <tr>
+    <td>申請者</td>
+    <td><%= @sub_business.user.name %></td>
+  <tr>
+
+  <tr>
+    <td>副業形態</td>
+    <td><%= @sub_business.status %></td>
+  </tr>
+
+  <tr>
+    <td>副業先</td>
+    <td><%= @sub_business.sub_business_company %></td>
+  </tr>
+
+  <tr>
+    <td>仕事内容</td>
+    <td><%= @sub_business.sub_business_content %></td> 
+  </tr>

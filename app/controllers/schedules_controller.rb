@@ -48,10 +48,10 @@ class SchedulesController < ApplicationController
     @apply = Apply.find(params[:apply])
     if @apply.classification == "申請"
       user = User.find(params[:user])
-      Schedule.update(holiday: 3)
+      @apply.schedule.update(holiday: 3)
     else
       user = User.find(params[:user])
-      Schedule.update(holiday: 1)
+      @apply.schedule.update(holiday: 1)
     end
     @apply.destroy!
     redirect_to schedules_path(user: current_user), notice: "休暇を承認しました"

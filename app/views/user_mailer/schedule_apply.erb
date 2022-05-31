@@ -1,0 +1,18 @@
+<p><%= @name %> 様</p>
+<p><%= @schedule.user.name %>さんから休暇申請が依頼されました。<br>
+申請内容を確認の上、承認もしくは否認をアプリケーション上で選択してください。</p>
+
+※このメールは送信専用です。<br>
+
+===============================
+
+<table>
+  <tr>
+    <td>申請者</td>
+    <td><%= @schedule.user.name %></td>
+  <tr>
+
+  <tr>
+    <td>申請対象日</td>
+    <td><%= @schedule.timecard.date.strftime("%Y年%m月%d日") %></td>
+  </tr>

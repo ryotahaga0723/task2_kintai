@@ -21,7 +21,7 @@ end
 task :send_reminders => :environment do
   User.all.each do |user|
     Timecard.create!(
-      date: "#{Date.today+150}",
+      date: "#{Date.today+210}",
       user_id: user.id,
       created_at: "2019-07-11 02:33:34", 
       updated_at: "2019-07-11 02:33:34"

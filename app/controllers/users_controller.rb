@@ -15,9 +15,9 @@ class UsersController < ApplicationController
     def create
       @user = User.new(user_params)
       if @user.save
-        210.times do |n|
+        240.times do |n|
           Timecard.create!(
-            date: "#{Date.today-60+n}",
+            date: "#{Date.today-30+n}",
             user_id: @user.id
           )
         end
